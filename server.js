@@ -11,7 +11,7 @@ let cheerio = require('cheerio')
 let db = require('./models')
 
 // Setting the port
-const PORT = process.env.PORT || 3030
+let PORT = 3000
 
 // Initializing express
 let app = express()
@@ -30,12 +30,48 @@ app.set('view engine', 'handlebars')
 // Connect to the Mongo DB
 mongoose.connect('mongodb://localhost/crossfitnewsdb', { useNewUrlParser: true })
 
+app.get('/scrape', function(req, res) {
 
+    axios.get('https://www.npr.org/').then(function(response) {
 
+        let $ = cheerio.load(response.data)
 
+        $('article h3').each(function(i, element) {
+
+            let result = {}
+
+            result.title = $(this)
+                .children('h3')
+                .text()
+            result.link = $(this)
+                .children('a')
+                .attr('href')
+
+            db.article.create(result) 
+                .then(function(dbArticle){
+                    console.log(dbArticle)
+                })
+                .catch(function(err) {
+                    console.log(err)
+                })
+        })
+
+        res.send('Scrape complete!')
+    })
+})
+
+app.get('/articles', function(req, res) {
+    db.article.find({})
+        .then(function(dbArticle){
+            res.json(dbArticle)
+        })
+        .catch(function(err){
+            res.json(err)
+        })
+})
 
 
 // Starting the server
-app.listen(PORT => {
+app.listen(PORT, function() {
     console.log('Server listening on PORT: ' + PORT)
 })
