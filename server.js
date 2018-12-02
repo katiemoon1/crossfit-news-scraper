@@ -32,20 +32,27 @@ mongoose.connect('mongodb://localhost/crossfitnewsdb', { useNewUrlParser: true }
 
 app.get('/scrape', function(req, res) {
 
-    axios.get('https://www.npr.org/').then(function(response) {
-
+    axios.get('http://journal.crossfit.com/basics/').then(function(response) {
+        console.log(response.data)
         let $ = cheerio.load(response.data)
 
-        $('article h3').each(function(i, element) {
+        $('.listArticle h2').each(function(i, element) {
 
-            let result = {}
+            var result = {}
 
             result.title = $(this)
-                .children('h3')
+                .children('a')
                 .text()
             result.link = $(this)
                 .children('a')
                 .attr('href')
+            result.synopsis = $(this)
+                .parent()
+                .siblings('.span-21')
+                .children('.span-13')
+                .children('.span-8')
+                .children('p')
+                .text()
 
             db.article.create(result) 
                 .then(function(dbArticle){

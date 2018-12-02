@@ -7,11 +7,15 @@ let Schema = mongoose.Schema
 // Creating a new user schema object
 let articleSchema = new Schema({
 
-    tile: {
+    title: {
         type: String,
         required: true
     },
     link: {
+        type: String,
+        required: true
+    },
+    synopsis: {
         type: String,
         required: true
     },
