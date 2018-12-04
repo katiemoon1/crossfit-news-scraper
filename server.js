@@ -67,6 +67,7 @@ app.get('/scrape', function(req, res) {
     })
 })
 
+// Route for getting the articles from the database and sending them back as json
 app.get('/articles', function(req, res) {
     db.article.find({})
         .then(function(dbArticle){
@@ -77,6 +78,31 @@ app.get('/articles', function(req, res) {
         })
 })
 
+// Route for getting a specific article by the id and the comments that belong to it
+app.get('/articles/:id', function(req, res) {
+    db.article.findOne({ _id: req.params.id })
+        .populate('comment')
+        .then(function(article) {
+            res.json(article)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+})
+
+// Route for saving or updating an articles comment
+app.post('/articles/:id', function(req, res) {
+    db.comment.create(req.body)
+        .then(function(dbComment) {
+            return db.article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true })
+        })
+        .then(function(dbArticle) {
+            res.json(dbArticle)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+})
 
 // Starting the server
 app.listen(PORT, function() {
