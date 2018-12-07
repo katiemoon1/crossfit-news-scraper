@@ -30,6 +30,12 @@ app.set('view engine', 'handlebars')
 // Connect to the Mongo DB
 mongoose.connect('mongodb://localhost/crossfitnewsdb', { useNewUrlParser: true })
 
+// Rendering the homepage
+app.get('/', function(req, res) {
+    res.render('index')
+})
+
+// Scraping the crossfit basic archives
 app.get('/scrape', function(req, res) {
 
     axios.get('http://journal.crossfit.com/basics/').then(function(response) {
@@ -105,6 +111,6 @@ app.post('/articles/:id', function(req, res) {
 })
 
 // Starting the server
-app.listen(PORT, function() {
+app.listen(PORT, () => {
     console.log('Server listening on PORT: ' + PORT)
 })
