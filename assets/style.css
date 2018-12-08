@@ -1,0 +1,12 @@
+.jumbotron {
+    background: url("https://morningchalkup.com/wp-content/uploads/2018/06/tectoniccrossfit-barbell-bw-2-1440xauto@2x.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    height: 400px
+}
+
+h3 {
+    cursor: pointer
+}

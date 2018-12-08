@@ -6,7 +6,6 @@ let Schema = mongoose.Schema
 
 // Creating a new comment schema
 var commentSchema = new Schema({
-    
     title: String,
     body: String
 })

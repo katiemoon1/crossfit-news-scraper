@@ -27,8 +27,11 @@ app.use(express.static(__dirname + '/assets'))
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
+// Integrating Heroku deployment
+let MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/crossfitnewsdb'
+
 // Connect to the Mongo DB
-mongoose.connect('mongodb://localhost/crossfitnewsdb', { useNewUrlParser: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 
 // Rendering the homepage
 app.get('/', function(req, res) {

@@ -19,20 +19,45 @@ $(document).on('click', 'h3', function() {
         method: "GET",
         url: "/articles/" + thisId
     })
-    .then(function(data) {
-        console.log(data)
+        .then(function(data) {
+            console.log(data)
 
-        $('#comments')
-            .append("<h3>" + data.title + "</h3>")
-            .append("<input id='title-input' name='title' >")
-            .append("<textarea id='body-input' name='body'></textarea>")
-            .append("<button data-id='" + data._id + "' id='save-comment'>Save Comment</button>")
+            $('#comments')
+                .append("<h3>" + data.title + "</h3>")
+                .append("<label>Comment Title?</label>")
+                .append("<input id='title-input' name='title' >")
+                .append("<label>Comment?</label>")
+                .append("<textarea id='body-input' name='body'></textarea>")
+                .append("<button data-id='" + data._id + "' id='save-comment' class='btn btn-primary'>Save Comment</button>")
 
-            if (data.comment) {
-                $("#title-input").val(data.comment.title)
-                $("#body-input").val(data.comment.body)
-            }
+                if (data.comment) {
+                    $("#title-input").val(data.comment.title)
+                    $("#body-input").val(data.comment.body)
+                }
+        })
+})
+
+// On click event for saving the comment
+$(document).on("click", "#save-comment", function() {
+
+    let thisId = $(this).attr('data-id')
+
+    $.ajax({
+        method: "POST",
+        url: "/articles/" + thisId,
+        data: {
+            title: $("#title-input").val(),
+            body: $("#body-input").val()
+        }
     })
+        .then(function(data) {
+            console.log(data)
+            $("#comments").empty()
+            $()
+        })
+
+        $("#title-input").val("")
+        $("#body-input").val("")
 })
 
 

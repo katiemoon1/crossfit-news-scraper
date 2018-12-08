@@ -1,12 +1,22 @@
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Crossfit Fundamentals</h1>
+        <p class="lead">Want to learn more about the basics of crossfit? Check out the scraped articles below!</p>
+    </div>
+</div>
 <div class="container">
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Crossfit Fundamentals</h1>
-            <p class="lead">Want to learn more about the basics of crossfit? Check out the scraped articles below!</p>
+    <div class="row">
+        <div class="col-md-8">
+            {{!-- A div for the articles --}}
+            <div class="card">
+                <div class="card-body">
+                    <div id="articles"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {{!-- A div for the comments --}}
+            <div id="comments"></div>
         </div>
     </div>
-    {{!-- A div for the articles --}}
-        <div id="articles"></div>
-        {{!-- A div for the comments --}}
-        <div id="comments"></div>
 </div>
